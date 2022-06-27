@@ -1,14 +1,19 @@
 export default function Card(props) {
+    const { card, handleEdit, handleDelete } = props;
     return (
         <div className="card">
-            Name:{props.card.name}
+            Name:{card.name}
             <br />
-            Age:{props.card.age}
+            Age:{card.age}
             <br />
-            Gender:{props.card.gender}
+            Gender:{card.gender}
             <br />
-            Id:{props.card.id}
-        </div>
+            Description:{card.description}
+            <div className="btns">
+                <button className="edit" onClick={() => { handleEdit(card.id) }}>Edit</button>
+                <button className="delete" onClick={() => { handleDelete(card.id) }}>Delete</button>
+            </div>
 
+        </div>
     );
 }
