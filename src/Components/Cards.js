@@ -1,12 +1,24 @@
 import Card from "./Card";
 export default function Cards(props) {
-    // var id = nextId();
-    // console.log(id);
+    const { details, setDetails, getData } = props;
+
+    function handleEdit(id) {
+        getData(id);
+    }
+
+    function handleDelete(id) {
+        setDetails(prev => {
+            return (prev.filter((p) => {
+                return p.id !== id;
+            }))
+        })
+    }
+
     return (
         <div className="cards">
-            {props.details.map(d => {
+            {details.map(d => {
                 return (
-                    <Card card={d} />
+                    <Card card={d} key={d.id} handleEdit={handleEdit} handleDelete={handleDelete} />
                 );
             })}
         </div>
