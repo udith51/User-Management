@@ -6,7 +6,7 @@ import UpdateForm from './Components/UpdateForm';
 
 export default function App() {
   var [details, setDetails] = useState([]);
-  const [newFormData, setNewFormData] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     age: "",
     gender: "",
@@ -14,18 +14,44 @@ export default function App() {
     id: ""
   });
 
-  function getData(id) {
-    var data = details.filter(d => {
-      return (d.id === id);
+  // function getData(id) {
+  //   var data = details.filter(d => {
+  //     return (d.id === id);
+  //   })
+  //   setNewFormData(data);
+  //   console.log(newFormData);
+  // }
+
+  function onSubmit(data) {
+    console.log('Sub');
+    console.log(data);
+    setDetails(prev => {
+      return ([...prev, data])
     })
-    setNewFormData(data);
-    console.log(newFormData);
   }
+
+  function onEdit(id) {
+    var upd = details.filter(d => {
+      return (d.id == id);
+    })
+    console.log(upd);
+    setFormData(upd[0]);
+    console.log(formData);
+  }
+
+  function onDelete(id) {
+    setDetails((prev) => {
+      return (prev.filter(p => {
+        return (p.id !== id);
+      }))
+    })
+  }
+
 
   return (
     <div className="app">
-      <Cards details={details} setDetails={setDetails} getData={getData} />
-      <Form details={details} setDetails={setDetails} newFormData={newFormData} setNewFormData={setNewFormData} />
+      <Cards details={details} onEdit={onEdit} onDelete={onDelete} />
+      <Form formData={formData} onSubmit={onSubmit} />
     </div>
   );
 }

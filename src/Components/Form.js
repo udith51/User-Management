@@ -2,49 +2,32 @@ import { useEffect, useState } from "react";
 import nextId from "react-id-generator";
 export default function Form(props) {
 
-    const { details, setDetails, newFormData, setNewFormData } = props;
+    var { formData, onSubmit } = props;
 
-    const [formData, setFormData] = useState(
-        {
-            name: "",
-            age: "",
-            gender: "",
-            description: "",
-            id: ""
-        }
-    );
-    // useEffect(() => {
-    //     setFormData(newFormData);
-    // }, [newFormData]);
-    // console.log(formData);
-
-    if (newFormData[0]) {
-        console.log(newFormData[0]);
-        console.log(formData);
-        setFormData(newFormData);
-    }
+    const [userData, setUserData] = useState(formData);
 
     function handleChange(e) {
         const { name, value } = e.target;
-        setFormData(prev => {
+        setUserData(prev => {
             return ({
                 ...prev,
                 [e.target.name]: value
             })
         })
     }
+
     function handleSubmit(e) {
         e.preventDefault();
-        setDetails(prev => {
-            return ([...prev, { ...formData, id: nextId() }])
-        })
-        setFormData({
+        formData = userData;
+        formData.id = nextId();
+        setUserData({
             name: "",
             age: "",
             gender: "",
             description: "",
             id: ""
         });
+        onSubmit(formData);
     }
 
     return (
@@ -52,16 +35,16 @@ export default function Form(props) {
             <form onSubmit={handleSubmit}>
                 <div className="inn">
                     <label htmlFor="name">Name</label>
-                    <input type="text" placeholder="Enter your name here" name="name" id="name" onChange={handleChange} value={formData.name} />
+                    <input type="text" placeholder="Enter your name here" name="name" id="name" value={userData.name} onChange={handleChange} />
                 </div>
                 <div className="grp2">
                     <div className="inn">
                         <label htmlFor="age">Age</label>
-                        <input type="number" name="age" id="age" onChange={handleChange} value={formData.age} placeholder="Enter your age here" />
+                        <input type="number" name="age" id="age" value={userData.age} placeholder="Enter your age here" onChange={handleChange} />
                     </div>
                     <div className="inn">
                         <label htmlFor="gender">Gender</label>
-                        <select name="gender" id="gender" onChange={handleChange} value={formData.gender}>
+                        <select name="gender" id="gender" value={userData.gender} onChange={handleChange}>
                             <option value="">--Choose--</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -72,7 +55,7 @@ export default function Form(props) {
                 <div className="inn">
                     <label htmlFor="description">Description</label>
                     <br />
-                    <textarea name="description" id="description" placeholder="Enter User Info here" onChange={handleChange} value={formData.description}></textarea>
+                    <textarea name="description" id="description" placeholder="Enter User Info here" value={userData.description} onChange={handleChange}></textarea>
                 </div>
 
                 <button className="submit">Submit</button>

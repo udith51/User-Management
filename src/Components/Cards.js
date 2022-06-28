@@ -1,17 +1,15 @@
 import Card from "./Card";
 export default function Cards(props) {
-    const { details, setDetails, getData } = props;
+    const { details, onEdit, onDelete } = props;
+
+
 
     function handleEdit(id) {
-        getData(id);
+        onEdit(id);
     }
 
     function handleDelete(id) {
-        setDetails(prev => {
-            return (prev.filter((p) => {
-                return p.id !== id;
-            }))
-        })
+        onDelete(id);
     }
 
     return (
