@@ -1,5 +1,4 @@
 import { createStore } from "redux";
-import updateUser from '../components/Form'
 
 const initialState = {
     editingUser: undefined,
@@ -10,7 +9,6 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case "ADD": {
-            // console.log([...state, action.payload]);
             return ({
                 ...state,
                 addedUsers: [...state.addedUsers, action.payload]
@@ -18,7 +16,6 @@ const reducer = (state = initialState, action) => {
         }
         case "DELETE": {
             var id = action.payload;
-            console.log(action.payload);
             return ({
                 ...state,
                 addedUsers: state.addedUsers.filter(user => {

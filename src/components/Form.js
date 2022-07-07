@@ -140,7 +140,6 @@ const Form = () => {
                 payload: userData
             })
         }
-        console.log(userData);
         setUserData({
             name: "",
             age: 0,
