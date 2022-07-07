@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { useContext } from 'react';
-import { userForm } from '../modelTypes';
+import { User } from '../modelTypes';
 import { UserContext } from '../userContext';
 
 const useStyles = makeStyles({
@@ -47,19 +47,17 @@ const useStyles = makeStyles({
 })
 
 interface cardProp {
-    card: userForm
+    card: User
 }
 
 export default function Card({ card }: cardProp) {
     const classes = useStyles();
-    const { allUsers, setAllUsers } = useContext(UserContext);
+    const users = useContext(UserContext);
+
     function onEdit(id: string) {
         console.log(id);
     }
 
-    function onDelete(id: String) {
-        setAllUsers((prev: any) => { })
-    }
     return (
         <div className={classes.cardStyle}>
             Name:{card.name}
@@ -70,8 +68,8 @@ export default function Card({ card }: cardProp) {
             <br />
             Description:{card.description}
             <div className={classes.btnStyle}>
-                <button className={classes.editStyle}>Edit</button>
-                <button className={classes.deleteStyle}>Delete</button>
+                <button className={classes.editStyle} onClick={() => { users.setEditUser(card.id) }}>Edit</button>
+                <button className={classes.deleteStyle} onClick={() => { users.deleteUser(card.id) }}>Delete</button>
             </div>
         </div>
     );

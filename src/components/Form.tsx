@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { userForm } from '../modelTypes';
+import React, { useContext, useEffect, useState } from 'react'
+import { User } from '../modelTypes';
 import nextId from "react-id-generator";
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
@@ -91,21 +91,31 @@ const useStyles = makeStyles({
     }
 });
 
-interface allUsersType {
-    editingUser: userForm,
-    addedUsers: userForm[]
-}
 
 const Form = () => {
-    const { allUsers, setAllUsers } = useContext(UserContext);
+    const { addUser, editUser, updateUser } = useContext(UserContext)
     const classes = useStyles();
-    const [userData, setUserData] = useState<userForm>({
-        name: "",
-        age: 0,
-        gender: "",
-        description: "",
-        id: ""
-    });
+    const [userData, setUserData] = useState<User>(
+        {
+            name: "",
+            age: 0,
+            gender: "",
+            description: "",
+            id: ""
+        });
+
+    useEffect(() => {
+        setUserData(
+            editUser ||
+            {
+                name: "",
+                age: 0,
+                gender: "",
+                description: "",
+                id: ""
+            }
+        )
+    }, [editUser])
 
     function handleChange(e: React.SyntheticEvent) {
         const { name, value } = e.target as HTMLInputElement;
@@ -119,16 +129,12 @@ const Form = () => {
 
     function handleSubmit(e: React.SyntheticEvent): void {
         e.preventDefault();
-        setUserData(prev => {
-            return ({
-                ...prev,
-                id: nextId()
-            })
-        })
 
-        setAllUsers((prev: allUsersType) => {
-            return prev;
-        })
+        if (!userData.id)
+            addUser({ ...userData, id: nextId() })
+        else {
+            updateUser(userData);
+        }
 
         setUserData({
             name: "",
@@ -137,7 +143,6 @@ const Form = () => {
             description: "",
             id: ""
         });
-        console.log(userData);
     }
 
     return (

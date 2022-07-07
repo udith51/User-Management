@@ -3,9 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import bgImage from "./img/bg.webp"
 import Form from './components/Form';
 import Cards from './components/Cards';
-import { UserContext } from './userContext'
-import { useState } from 'react';
-import { userForm } from './modelTypes';
+import { UserContext, useUserManagement } from './userContext'
+
 const useStyles = makeStyles({
   appStyle: {
     display: "flex",
@@ -20,29 +19,13 @@ const useStyles = makeStyles({
   }
 })
 
-interface allUsersType {
-  editingUser: userForm,
-  addedUsers: userForm[]
-}
 
 const App: React.FC = () => {
-
-
-  const [allUsers, setAllUsers] = useState<allUsersType>({
-    editingUser: {
-      name: "",
-      age: 0,
-      gender: "",
-      id: "",
-      description: ""
-    },
-    addedUsers: []
-  },
-  );
   const classes = useStyles();
+  const UserManagement = useUserManagement();
   return (
     <div className={classes.appStyle}>
-      <UserContext.Provider value={{ allUsers, setAllUsers }}>
+      <UserContext.Provider value={UserManagement}>
         <Cards />
         <Form />
       </UserContext.Provider>

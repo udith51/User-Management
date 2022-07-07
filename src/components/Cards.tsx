@@ -16,10 +16,9 @@ const useStyles = makeStyles({
 export default function Cards() {
     const classes = useStyles();
     const users = useContext(UserContext);
-    console.log(users.allUsers.addedUsers);
     return (
         <div className={classes.cardsStyle}>
-            {users.allUsers.addedUsers.map(user => {
+            {users.users.map(user => {
                 return (
                     <Card card={user} key={user.id} />
                 );
