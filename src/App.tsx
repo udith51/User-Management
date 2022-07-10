@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { makeStyles } from '@material-ui/core/styles';
+import bgImage from "./img/bg.webp"
+import Form from './components/Form';
+import Cards from './components/Cards';
+import { UserContext, useUserManagement } from './userContext'
 
-function App() {
+const useStyles = makeStyles({
+  appStyle: {
+    display: "flex",
+    backgroundImage: 'url(' + bgImage + ')',
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    margin: 0,
+    padding: 0,
+    boxSizing: "border-box",
+    width: "100vw",
+    minHeight: "100vh"
+  }
+})
+
+
+const App: React.FC = () => {
+  const classes = useStyles();
+  const UserManagement = useUserManagement();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <div className={classes.appStyle}>
+      <UserContext.Provider value={UserManagement}>
+        <Cards />
+        <Form />
+      </UserContext.Provider>
+    </div >
+  )
 }
 
 export default App;
